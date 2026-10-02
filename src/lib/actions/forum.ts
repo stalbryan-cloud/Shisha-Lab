@@ -106,8 +106,8 @@ async function flag(table: 'forum_bookmarks' | 'forum_follows', topicId: string,
   revalidatePath(`/community/t/${slug}`);
   return ok();
 }
-export const setBookmark = (topicId: string, on: boolean, slug: string) => flag('forum_bookmarks', topicId, on, slug);
-export const setFollow = (topicId: string, on: boolean, slug: string) => flag('forum_follows', topicId, on, slug);
+export async function setBookmark(topicId: string, on: boolean, slug: string): Promise<ActionResult> { return flag('forum_bookmarks', topicId, on, slug); }
+export async function setFollow(topicId: string, on: boolean, slug: string): Promise<ActionResult> { return flag('forum_follows', topicId, on, slug); }
 
 export async function voteForum(target: { topic_id?: string; post_id?: string }, on: boolean, slug: string): Promise<ActionResult> {
   const a = await authed();

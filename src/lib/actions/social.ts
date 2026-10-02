@@ -19,8 +19,8 @@ async function toggle(table: 'recipe_likes' | 'recipe_saves', recipeId: string, 
   revalidatePath('/me');
   return ok();
 }
-export const setLike = (recipeId: string, on: boolean, slug?: string) => toggle('recipe_likes', recipeId, on, slug);
-export const setSave = (recipeId: string, on: boolean, slug?: string) => toggle('recipe_saves', recipeId, on, slug);
+export async function setLike(recipeId: string, on: boolean, slug?: string): Promise<ActionResult> { return toggle('recipe_likes', recipeId, on, slug); }
+export async function setSave(recipeId: string, on: boolean, slug?: string): Promise<ActionResult> { return toggle('recipe_saves', recipeId, on, slug); }
 
 export async function createCollection(name: string): Promise<ActionResult<{ id: string }>> {
   const a = await authed();
