@@ -15,7 +15,7 @@ First thing to do on a machine with network access: `npm install && npm run type
 
 ## Formulas
 - **Bayesian rating**: `(v·R + m·C) / (v + m)`, m = 8, C = site-wide mean shrunk toward 3.5 (weight 20) so an empty site has a sane prior. Recipes with fewer than 3 reviews show "not enough ratings". "Verified Maker" is shown as a label on reviews by members who logged "I made this"; it does not change the maths.
-- **Trending**: `score = (Σ weight·0.5^(age_h / half_life_h) + 0.05·Σ daily_views·0.5^(age_days·24 / half_life_h)) × (0.8 + 0.4·bayes_rating/5)`; half-life by window: day 12 h, week 3 d, month 10 d, year 90 d, all 365 d. Recomputed by `/api/cron/trending` every 30 min (Vercel cron, `Authorization: Bearer $CRON_SECRET`).
+- **Trending**: `score = (Σ weight·0.5^(age_h / half_life_h) + 0.05·Σ daily_views·0.5^(age_days·24 / half_life_h)) × (0.8 + 0.4·bayes_rating/5)`; half-life by window: day 12 h, week 3 d, month 10 d, year 90 d, all 365 d. Recomputed by `/api/cron/trending` daily at 04:00 UTC on the Vercel Hobby plan (every 30 min is possible on Pro by changing `vercel.json` to `*/30 * * * *`, or via Supabase pg_cron; Vercel cron, `Authorization: Bearer $CRON_SECRET`).
 - **Badges** (`src/lib/core/badges.ts`): Community Tested ≥3 maker results; Frequently Made ≥10; Well Documented completeness ≥80; Highly Rated ≥5 reviews & weighted ≥4.2; Popular ≥15 likes+saves; Updated Recently (v>1.0, ≤30 days); Community Pick = staff-featured. None claims safety.
 - Stats on small samples are hidden (thresholds in `ratings.ts`).
 

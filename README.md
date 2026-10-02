@@ -48,7 +48,7 @@ In Supabase → Auth → URL configuration set Site URL to `NEXT_PUBLIC_SITE_URL
 ## Deploy (Vercel + Supabase)
 1. Create a Supabase project; run `supabase link` then `supabase db push`.
 2. Import the repo in Vercel; set the env vars above (service-role key as a server-only secret).
-3. `vercel.json` registers the trending cron (every 30 min). Set `CRON_SECRET` in Vercel; Vercel sends it as a Bearer token.
+3. `vercel.json` registers the trending cron (daily, as the Hobby plan allows; use `*/30 * * * *` on Pro). Set `CRON_SECRET` in Vercel; Vercel sends it as a Bearer token.
 4. Add the production URL to the Supabase auth redirect list; make your first admin (above).
 
 ## Testing
