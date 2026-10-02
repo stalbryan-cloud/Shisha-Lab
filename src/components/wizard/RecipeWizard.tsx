@@ -104,7 +104,7 @@ export function RecipeWizard({ initial, catalog, maxImageMb }: { initial: Wizard
         steps: d.steps.filter((r) => !blank(r, ['title', 'instructions'])),
         sources: d.sources.filter((r) => !blank(r, ['title', 'url', 'file_path'])),
       };
-      const res = await saveRecipe(payload as RecipeDraftInput);
+      const res = await saveRecipe(payload as unknown as RecipeDraftInput);
       if (res.ok && res.data) {
         idRef.current = res.data.id; setSlug(res.data.slug);
         if (!d.id) setDraft((x) => ({ ...x, id: res.data!.id }));
@@ -183,7 +183,7 @@ export function RecipeWizard({ initial, catalog, maxImageMb }: { initial: Wizard
   };
   const pickTobacco = (label: string) => {
     const m = catalog.tobaccos.find((t) => t.label === label);
-    patch((d) => ({ ...d, tobacco: { ...(d.tobacco as Obj), ...(m ? { tobacco_id: m.id, brand: m.brand, product_name: m.product_name, leaf_family: m.family ?? (d.tobacco as Obj).leaf_family, leaf_type: m.leaf_type ?? (d.tobacco as Obj).leaf_type, variety: m.variety ?? (d.tobacco as Obj).variety, origin: m.origin ?? (d.tobacco as Obj).origin, cut: m.cut ?? (d.tobacco as Obj).cut } : { tobacco_id: null, product_name: label }) } }));
+    patch((d) => ({ ...d, tobacco: { ...(d.tobacco as Obj), ...(m ? { tobacco_id: m.id, brand: m.brand, product_name: m.product_name, leaf_family: m.family ?? (d.tobacco as Obj).leaf_family, leaf_type: m.leaf_type ?? (d.tobacco as Obj).leaf_type, variety: m.variety ?? (d.tobacco as Obj).variety, origin: m.origin ?? (d.tobacco as Obj).origin, cut: m.cut ?? (d.tobacco as Obj).cut } : { tobacco_id: null, product_name: label }) } as typeof d.tobacco }));
   };
 
   const statusText = status.kind === 'saving' ? 'Saving…' : status.kind === 'saved' ? `Draft saved ${status.at}` : status.kind === 'dirty' ? 'Unsaved changes…' : status.kind === 'error' ? `Not saved: ${status.msg}` : 'Changes save automatically';
