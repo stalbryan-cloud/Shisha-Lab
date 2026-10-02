@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "tsc --noEmit --pretty false 2>&1 | head -150; next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
