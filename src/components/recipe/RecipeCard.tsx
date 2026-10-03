@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FlaskConical, Heart, Bookmark, Clock } from 'lucide-react';
+import { JarStack } from './JarStack';
 import { RatingStars } from '@/components/ui/RatingStars';
 import { publicImageUrl } from '@/lib/storage';
 import { formatHours, formatVersion } from '@/lib/utils';
@@ -12,16 +13,20 @@ export function RecipeCard({ recipe: r, priority }: { recipe: RecipeCardData; pr
   const avg = r.review_count ? r.rating_sum / r.review_count : null;
   const badges = computeBadges({ made_count: r.made_count, completeness: r.completeness, review_count: r.review_count, bayes_rating: r.bayes_rating, like_count: r.like_count, save_count: r.save_count, updated_at: r.updated_at, is_featured: r.is_featured, version_major: r.version_major, version_minor: r.version_minor }).filter((b) => b !== 'community_pick').slice(0, 2);
   return (
-    <article className="card group relative flex flex-col overflow-hidden transition-colors hover:border-amber/40">
+    <article className="card group relative flex flex-col overflow-hidden transition-colors hover:border-ink/60">
       <Link href={`/recipes/${r.slug}`} className="absolute inset-0 z-10" aria-label={r.title} />
-      <div className="relative aspect-[16/10] bg-raised">
+      <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-raised">
         {img ? <Image src={img} alt="" fill sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transform-none" priority={priority} />
-          : <div className="flex h-full items-center justify-center text-line"><FlaskConical size={44} aria-hidden /></div>}
-        {r.is_featured && <span className="chip chip-amber absolute left-3 top-3">Community pick</span>}
+          : <JarStack aromas={r.aromas} variant="cover" />}
+        {r.is_featured && <span className="chip chip-amber absolute left-3 top-3 bg-surface">Community pick</span>}
+        {(r.version_major > 1 || r.version_minor > 0) && (
+          <span className="absolute right-3 top-3 -rotate-3 rounded-sm border-2 border-ember bg-surface/90 px-1.5 font-mono text-[11px] font-medium text-ember" title="This recipe has been revised">{formatVersion(r.version_major, r.version_minor)} revised</span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="font-display text-lg leading-snug">{r.title}</h3>
+        <h3 className="font-display text-lg font-semibold leading-snug">{r.title}</h3>
         {r.short_description && <p className="line-clamp-2 text-sm text-mute">{r.short_description}</p>}
+        {img && r.aromas.length > 0 && <JarStack aromas={r.aromas} variant="strip" />}
         {r.aromas.length > 0 && (
           <p className="line-clamp-1 text-xs text-ink/80">{r.aromas.slice(0, 4).map((a) => a.flavour_name).join(' · ')}{r.aromas.length > 4 ? ` +${r.aromas.length - 4}` : ''}</p>
         )}

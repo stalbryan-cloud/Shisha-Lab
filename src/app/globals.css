@@ -2,41 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens — HSL triplets so Tailwind can apply alpha. Dark "flavour laboratory" palette. */
+/* Design tokens — HSL triplets so Tailwind can apply alpha.
+   "Lab notebook" palette: pale grid paper, navy ink, ballpoint-blue accent, highlighter yellow.
+   NOTE: the token and Tailwind names (amber, ember, moss) predate this palette and are kept so every
+   component keeps working. Read `amber` as "the accent", which is now ballpoint blue. */
 :root {
-  --bg: 24 14% 7%;            /* near-black charcoal */
-  --surface: 24 12% 10%;
-  --raised: 24 11% 14%;
-  --line: 28 12% 22%;
-  --ink: 38 38% 90%;          /* warm cream */
-  --mute: 34 14% 62%;
-  --amber: 38 82% 56%;        /* restrained gold */
-  --amber-soft: 38 60% 34%;
-  --ember: 14 62% 48%;        /* muted red-orange */
-  --moss: 96 22% 48%;
-  --danger: 4 70% 58%;
-  color-scheme: dark;
+  --bg: 150 14% 94%;          /* grid paper */
+  --surface: 140 25% 98%;     /* clean page */
+  --raised: 168 14% 89%;      /* pencil-tray grey-green */
+  --line: 196 16% 77%;        /* blue-grey rule lines */
+  --ink: 222 52% 17%;         /* navy ink */
+  --mute: 217 16% 38%;        /* faded pen */
+  --amber: 229 70% 47%;       /* ballpoint blue (accent) */
+  --amber-soft: 229 60% 80%;
+  --ember: 355 62% 46%;       /* margin-line red */
+  --moss: 150 38% 28%;
+  --danger: 355 68% 42%;
+  --mark: 56 92% 66%;         /* highlighter yellow */
+  color-scheme: light;
 }
 
 @layer base {
   html { background: hsl(var(--bg)); }
   body {
     @apply bg-bg font-sans text-ink antialiased;
+    /* graph-paper grid: a faint 24px square grid, like the notebook this app is named after */
     background-image:
-      radial-gradient(1200px 500px at 85% -10%, hsl(var(--amber) / 0.06), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+      linear-gradient(hsl(var(--line) / 0.28) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--line) / 0.28) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
   h1, h2, h3 { @apply font-display tracking-tight; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-amber; outline-style: solid; }
-  ::selection { background: hsl(var(--amber) / 0.35); }
+  ::selection { background: hsl(var(--mark) / 0.85); }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   }
 }
 
 @layer components {
-  .btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-line bg-raised px-4 text-sm font-medium text-ink transition-colors hover:border-amber/50 hover:bg-raised/70 disabled:pointer-events-none disabled:opacity-50 sm:min-h-10; }
-  .btn-primary { @apply border-amber bg-amber text-bg hover:bg-amber/90 hover:border-amber; }
+  .btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-ink/25 bg-surface px-4 text-sm font-medium text-ink transition-colors hover:border-amber hover:bg-raised disabled:pointer-events-none disabled:opacity-50 sm:min-h-10; }
+  .btn-primary { @apply border-amber bg-amber text-surface hover:bg-amber/90 hover:border-amber; }
   .btn-ghost { @apply border-transparent bg-transparent hover:bg-raised; }
   .btn-danger { @apply border-danger/60 text-danger hover:bg-danger/10; }
   .btn-sm { @apply min-h-9 px-3 text-xs sm:min-h-8; }
@@ -44,10 +50,10 @@
   textarea.field { @apply min-h-[6rem] py-2; }
   .label { @apply mb-1 block text-xs font-medium uppercase tracking-wider text-mute; }
   .card { @apply rounded-lg border border-line bg-surface shadow-card; }
-  .chip { @apply inline-flex items-center gap-1 rounded-md border border-line bg-raised px-2.5 py-1 text-xs text-ink/90; }
+  .chip { @apply inline-flex items-center gap-1 rounded-md border border-line bg-surface px-2.5 py-1 text-xs text-ink/90; }
   .chip-amber { @apply border-amber/40 bg-amber/10 text-amber; }
   .prose-lab { @apply text-[15px] leading-relaxed text-ink/90 [&_a]:text-amber [&_a]:underline [&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-amber/40 [&_blockquote]:pl-3 [&_blockquote]:text-mute [&_code]:rounded [&_code]:bg-raised [&_code]:px-1 [&_code]:font-mono [&_code]:text-[13px] [&_li]:ml-5 [&_ol]:list-decimal [&_p]:my-2 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-raised [&_pre]:p-3 [&_ul]:list-disc [&_.mention]:text-amber; }
-  .section-title { @apply font-display text-xl font-semibold sm:text-2xl; }
+  .section-title { @apply inline-block border-b-2 border-ink/80 pb-0.5 font-display text-xl font-semibold sm:text-2xl; }
 }
 
 @media print {

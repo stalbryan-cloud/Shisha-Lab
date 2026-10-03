@@ -6,7 +6,9 @@ import { DEFAULT_FILTERS } from '@/lib/core/filters';
 import { SearchAutocomplete } from '@/components/layout/SearchAutocomplete';
 import { RecipeGrid } from '@/components/recipe/RecipeGrid';
 import { ForumTopicRow } from '@/components/forum/ForumTopicRow';
+import { formatHours } from '@/lib/utils';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { JarStack } from '@/components/recipe/JarStack';
 
 export const revalidate = 120;
 const QUICK = ['Peach', 'Mint', 'Berry', 'Citrus', 'Creamy', 'Dessert', 'Tropical', 'Cooling'];
@@ -35,15 +37,24 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ w
     communityStats(),
   ]);
   const empty = !trending.length && !newest.items.length;
+  const jar = trending[0] ?? newest.items[0] ?? null;
   return (
     <div>
-      <section className="border-b border-line">
-        <div className="container py-14 sm:py-20">
-          <p className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-amber"><FlaskConical size={16} aria-hidden /> The flavour laboratory</p>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl leading-tight sm:text-6xl">Document, test and discuss homemade shisha recipes.</h1>
-          <p className="mt-4 max-w-2xl text-lg text-ink/75">A community notebook for experimenters — structured recipes, honest results, and the conversations that improve them. Not a shop.</p>
-          <div className="mt-8 max-w-2xl"><SearchAutocomplete size="lg" /></div>
-          <ul className="mt-4 flex flex-wrap gap-2" aria-label="Quick searches">{QUICK.map((t) => <li key={t}><Link href={`/search?q=${t}`} className="chip hover:border-amber/60 hover:text-amber">{t}</Link></li>)}</ul>
+      <section className="relative border-b border-line bg-surface/70">
+        <div aria-hidden className="absolute inset-y-0 left-4 w-px bg-ember/50 sm:left-10" />
+        <div className="container grid gap-10 py-12 sm:py-16 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+          <div className="sm:pl-10">
+            <h1 className="max-w-2xl font-display text-4xl font-semibold leading-[1.05] sm:text-6xl">Document, test and discuss homemade shisha recipes.</h1>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink/80">A community notebook for experimenters: structured recipes, honest results, and the conversations that improve them. Not a shop.</p>
+            <div className="mt-7 max-w-xl"><SearchAutocomplete size="lg" /></div>
+            <ul className="mt-4 flex flex-wrap gap-2" aria-label="Quick searches">{QUICK.map((t) => <li key={t}><Link href={`/search?q=${t}`} className="chip hover:border-amber hover:text-amber">{t}</Link></li>)}</ul>
+          </div>
+          {jar && (
+            <Link href={`/recipes/${jar.slug}`} className="group block sm:pl-10 lg:pl-0" aria-label={`Open ${jar.title}`}>
+              <JarStack aromas={jar.aromas} variant="jar" />
+              <p className="mx-auto mt-4 max-w-sm text-center font-hand text-2xl leading-tight text-ink/80 group-hover:text-amber">{jar.title}{jar.recommended_rest_hours != null ? `, rest ${formatHours(jar.recommended_rest_hours)}` : ''}</p>
+            </Link>
+          )}
         </div>
       </section>
 
