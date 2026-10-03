@@ -53,6 +53,9 @@
   .chip { @apply inline-flex items-center gap-1 rounded-md border border-line bg-surface px-2.5 py-1 text-xs text-ink/90; }
   .chip-amber { @apply border-amber/40 bg-amber/10 text-amber; }
   .prose-lab { @apply text-[15px] leading-relaxed text-ink/90 [&_a]:text-amber [&_a]:underline [&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-amber/40 [&_blockquote]:pl-3 [&_blockquote]:text-mute [&_code]:rounded [&_code]:bg-raised [&_code]:px-1 [&_code]:font-mono [&_code]:text-[13px] [&_li]:ml-5 [&_ol]:list-decimal [&_p]:my-2 [&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-raised [&_pre]:p-3 [&_ul]:list-disc [&_.mention]:text-amber; }
+  /* five stars as one masked element; --v is the filled share (0-100%) */
+  .stars { display: inline-block; width: 5em; height: 1em; background: linear-gradient(90deg, hsl(var(--amber)) var(--v, 0%), hsl(var(--line)) var(--v, 0%)); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26'/%3E%3C/svg%3E") repeat-x 0 0 / 1em 1em; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26'/%3E%3C/svg%3E") repeat-x 0 0 / 1em 1em; }
+  .jar-band { @apply flex min-h-[1.6rem] items-center justify-between gap-3 border-b border-ink/15 px-3 text-ink last:border-b-0; }
   .section-title { @apply inline-block border-b-2 border-ink/80 pb-0.5 font-display text-xl font-semibold sm:text-2xl; }
 }
 

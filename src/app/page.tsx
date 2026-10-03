@@ -28,9 +28,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ w
   const base = { ...DEFAULT_FILTERS };
   const [trending, topRated, mostMade, newest, picks, profiles, topics, stats] = await Promise.all([
     trendingRecipes(window, 6),
-    listRecipes({ ...base, sort: 'rating', minReviews: 3 }, { limit: 6 }),
-    listRecipes({ ...base, sort: 'made' }, { limit: 6 }),
-    listRecipes({ ...base, sort: 'newest' }, { limit: 6 }),
+    listRecipes({ ...base, sort: 'rating', minReviews: 3 }, { limit: 3 }),
+    listRecipes({ ...base, sort: 'made' }, { limit: 3 }),
+    listRecipes({ ...base, sort: 'newest' }, { limit: 3 }),
     communityPicks(3),
     popularProfiles(8),
     activeDiscussions(5),

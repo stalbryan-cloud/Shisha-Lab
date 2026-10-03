@@ -25,7 +25,7 @@ export function JarStack({ aromas, variant = 'cover', className = '' }: { aromas
   const layers = (
     <div className="flex h-full w-full flex-col" role="img" aria-label={summary}>
       {bands.length ? bands.map((b, i) => (
-        <div key={i} style={{ flexGrow: b.weight, backgroundColor: b.color }} className="flex min-h-[1.6rem] items-center justify-between gap-3 border-b border-ink/15 px-3 text-ink last:border-b-0">
+        <div key={i} style={{ flexGrow: b.weight, backgroundColor: b.color }} className="jar-band">
           <span className="truncate text-sm font-medium">{b.name}</span>
           {b.pct != null && <span className="shrink-0 font-mono text-xs tabular-nums">{b.pct}%</span>}
         </div>
